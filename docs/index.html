@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Autopark — Система управления автопарком</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #222; }
+
+    header { background: linear-gradient(135deg, #1a1a2e, #16213e); color: #fff; padding: 48px 32px; text-align: center; }
+    header h1 { font-size: 2.4rem; letter-spacing: 1px; }
+    header p  { margin-top: 10px; font-size: 1.05rem; opacity: .85; }
+
+    .badges { margin-top: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .badge  { background: #0f3460; border-radius: 20px; padding: 6px 16px; font-size: .85rem; color: #e0e0e0; }
+    .badge span { color: #56cfe1; font-weight: bold; }
+
+    nav { background: #16213e; display: flex; justify-content: center; gap: 0; flex-wrap: wrap; }
+    nav a { color: #a0c4ff; padding: 14px 22px; text-decoration: none; font-size: .95rem; transition: background .2s; }
+    nav a:hover { background: #0f3460; color: #fff; }
+
+    main { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; }
+    .card { background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,.08); border-left: 5px solid #56cfe1; }
+    .card h3 { font-size: 1.1rem; margin-bottom: 10px; color: #1a1a2e; }
+    .card p  { font-size: .93rem; line-height: 1.6; color: #555; }
+
+    .section-title { font-size: 1.4rem; font-weight: 700; margin: 36px 0 16px; color: #1a1a2e; border-bottom: 2px solid #56cfe1; padding-bottom: 6px; }
+
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.07); }
+    th { background: #1a1a2e; color: #fff; padding: 12px 16px; text-align: left; }
+    td { padding: 11px 16px; border-bottom: 1px solid #eef0f3; font-size: .92rem; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f0f7ff; }
+
+    .tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: .8rem; font-weight: 600; }
+    .tl  { background: #d1ecf1; color: #0c5460; }
+    .dev { background: #d4edda; color: #155724; }
+
+    .btn { display: inline-block; background: #56cfe1; color: #1a1a2e; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; margin: 6px 4px; transition: background .2s; }
+    .btn:hover { background: #38b6cc; }
+    .btn-outline { background: transparent; border: 2px solid #56cfe1; color: #1a1a2e; }
+    .btn-outline:hover { background: #56cfe1; }
+
+    footer { text-align: center; padding: 32px; color: #888; font-size: .88rem; background: #fff; margin-top: 40px; border-top: 1px solid #e0e0e0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🚛 Autopark</h1>
+  <p>Консольная система управления автопарком · Лабораторная работа №4 · Вариант 1</p>
+  <div class="badges">
+    <div class="badge">Язык: <span>C99</span></div>
+    <div class="badge">БД: <span>SQLite 3</span></div>
+    <div class="badge">CI: <span>GitHub Actions</span></div>
+    <div class="badge">Coverage: <span>gcov</span></div>
+  </div>
+</header>
+
+<nav>
+  <a href="#about">О проекте</a>
+  <a href="#team">Команда</a>
+  <a href="#arch">Архитектура</a>
+  <a href="#tasks">Задачи</a>
+  <a href="https://github.com/fpmi-tpmp2026/tpmp-gr11b-lab4-randb" target="_blank">GitHub →</a>
+</nav>
+
+<main>
+
+  <!-- ── О проекте ── -->
+  <div class="section-title" id="about">О проекте</div>
+  <div class="card-grid">
+    <div class="card">
+      <h3>📋 Описание</h3>
+      <p>Автоматизация деятельности автопарка, осуществляющего перевозку грузов. Поддержка ролей «Администратор» и «Водитель».</p>
+    </div>
+    <div class="card">
+      <h3>🔐 Аутентификация</h3>
+      <p>Вход по логину и паролю. Администратор управляет всеми данными; водитель видит только свои заказы и автомобиль.</p>
+    </div>
+    <div class="card">
+      <h3>📊 Отчёты</h3>
+      <p>Пробег и грузооборот по автомобилю, статистика водителей, расчёт зарплаты (20% от стоимости перевозки) за период.</p>
+    </div>
+    <div class="card">
+      <h3>🛡️ Защита данных</h3>
+      <p>Триггер SQLite предотвращает добавление заказа, если масса груза превышает грузоподъёмность автомобиля.</p>
+    </div>
+  </div>
+
+  <!-- ── Команда ── -->
+  <div class="section-title" id="team">Команда</div>
+  <table>
+    <thead><tr><th>Участник</th><th>Роль</th><th>Задачи</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Короткевич Дмитрий</strong></td>
+        <td><span class="tag tl">Team Lead</span></td>
+        <td>Архитектура, db.c, auth.c, main.c, CI/CD, документация, Kanban</td>
+      </tr>
+      <tr>
+        <td><strong>Близник Климентий</strong></td>
+        <td><span class="tag dev">Developer</span></td>
+        <td>cars.c, drivers.c, orders.c, unit-тесты, схема БД, UML-диаграммы</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── Архитектура ── -->
+  <div class="section-title" id="arch">Архитектура</div>
+  <table>
+    <thead><tr><th>Модуль</th><th>Файлы</th><th>Ответственность</th></tr></thead>
+    <tbody>
+      <tr><td>db</td><td>db.h / db.c</td><td>Подключение к SQLite, инициализация схемы, триггер</td></tr>
+      <tr><td>auth</td><td>auth.h / auth.c</td><td>Аутентификация, регистрация, смена пароля</td></tr>
+      <tr><td>cars</td><td>cars.h / cars.c</td><td>CRUD автомобилей, отчёты по пробегу и грузообороту</td></tr>
+      <tr><td>drivers</td><td>drivers.h / drivers.c</td><td>CRUD водителей, отчёты по статистике</td></tr>
+      <tr><td>orders</td><td>orders.h / orders.c</td><td>CRUD заказов, расчёт и сохранение зарплат</td></tr>
+      <tr><td>main</td><td>main.c</td><td>Меню, маршрутизация по ролям</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ── Задачи ── -->
+  <div class="section-title" id="tasks">Спринты</div>
+  <table>
+    <thead><tr><th>Спринт</th><th>Задачи</th><th>Статус</th></tr></thead>
+    <tbody>
+      <tr><td>Sprint 1</td><td>Инфраструктура, Kanban, схема БД, UML-диаграммы</td><td>✅ Done</td></tr>
+      <tr><td>Sprint 2</td><td>db.c, auth.c, cars.c, drivers.c, orders.c, main.c</td><td>✅ Done</td></tr>
+      <tr><td>Sprint 3</td><td>Unit-тесты (15 тестов), Makefile, GitHub Actions, Codecov</td><td>✅ Done</td></tr>
+      <tr><td>Sprint 4</td><td>README, Wiki, GitHub Pages, финальное ревью</td><td>✅ Done</td></tr>
+    </tbody>
+  </table>
+
+  <div style="text-align:center; margin-top:36px;">
+    <a class="btn" href="https://github.com/vannishh/tpmp-lab4" target="_blank">📦 Репозиторий</a>
+    <a class="btn btn-outline" href="https://github.com/fpmi-tpmp2026/tpmp-gr11b-lab4-randb/wiki" target="_blank">📖 Wiki</a>
+    <a class="btn btn-outline" href="https://github.com/vannishh/tpmp-lab4/actions" target="_blank">⚙️ CI/CD</a>
+  </div>
+
+</main>
+
+<footer>
+  <p>Лабораторная работа №4 · Технологии программирования для мобильных приложений · 2025–2026</p>
+  <p style="margin-top:6px;">Команда: Короткевич Дмитрий &amp; Близник Климентий</p>
+</footer>
+
+</body>
+</html>
